@@ -23,4 +23,6 @@ Route::group(['middleware' => 'api'], function($router) {
     Route::post('/profile', [AuthController::class, 'profile']);
 });
 
-Route::resource('products', ProductController::class);
+Route::group(['middleware' => ['api','auth:api']], function($router) {
+    Route::resource('products', ProductController::class);
+});
