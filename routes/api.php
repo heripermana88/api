@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,4 +27,6 @@ Route::group(['middleware' => 'api'], function($router) {
 Route::group(['middleware' => ['api','auth:api']], function($router) {
     Route::get('products{any}', [ProductController::class, 'search']);
     Route::resource('products', ProductController::class);
+
+    Route::get('/user', [AuthController::class, 'profile']);
 });
