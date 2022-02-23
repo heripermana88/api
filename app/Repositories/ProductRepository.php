@@ -32,6 +32,40 @@ class ProductRepository implements ProductInterface
             return $this->error($e->getMessage(), $e->getCode());
         }
     }
+    public function searchAllProducts($query)
+    {
+        try {
+            $page = isset($query['page']) ? $query['page'] : 1;
+            $perPage = isset($query['perPage']) ? $query['perPage'] : 5;
+            $search = isset($query['search']) ? $query['search'] : 0;
+            $sort = isset($query['sort']) ? $query['sort'] : 'asc';
+            $by = isset($query['by']) ? $query['by'] : 'name';
+            $skip = $page > 1 ? ($page*$perPage) : 0;
+            
+            $products = DB::table('products');
+            if(isset($search)){
+                $products->orWhere('id','LIKE','%'.$search.'%');
+                $products->orWhere('name','LIKE','%'.$search.'%');
+                $products->orWhere('sku','LIKE','%'.$search.'%');
+                $products->orWhere('stock','LIKE','%'.$search.'%');
+                $products->orWhere('price','LIKE','%'.$search.'%');
+            }
+            if(isset($sort)){
+                $products->orderBy($by,$sort);
+            }
+            $products->skip($skip);
+            $products->take($perPage);
+            $data = [
+                "data" => $products->get(),
+                "page" => $page,
+                "perPage" => $perPage,
+                "total" => $products->get()->count()
+            ];
+            return $this->success("Search Products", $data);
+        } catch(\Exception $e) {
+            return $this->error($e->getMessage(), $e->getCode());
+        }
+    }
     public function getAllDeletedProducts()
     {
         try {

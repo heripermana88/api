@@ -7,6 +7,14 @@ use App\Http\Requests\ProductRequest;
 interface ProductInterface
 {
     /**
+     * Search all products
+     * 
+     * @method  GET api/products?search=XXXXXXXXX
+     * @access  public
+     */
+    public function searchAllProducts($query);
+
+    /**
      * Get all products
      * 
      * @method  GET api/products

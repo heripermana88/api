@@ -20,8 +20,13 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->query();
+        if(count($search)){
+            return $this->product->searchAllProducts($search);
+        }
+        
         return $this->product->getAllProducts();
     }
 
