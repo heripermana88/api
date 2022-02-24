@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\Request;
 use App\Interfaces\UserInterface;
 use App\Traits\ResponseAPI;
 use App\Models\User;

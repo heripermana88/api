@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
 use App\Interfaces\ProductInterface;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -73,5 +74,15 @@ class ProductController extends Controller
     public function destroy($id)
     {
         return $this->product->deleteProduct($id);
+    }
+
+    public function upload(Request $request) {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+        $imageName = time().'.'.$request->image->extension();  
+        $request->image->move(public_path('images'), $imageName);
+
+        return response(url('images/'.$imageName)); 
     }
 }

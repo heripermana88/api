@@ -27,6 +27,7 @@ Route::group(['middleware' => 'api'], function($router) {
 Route::group(['middleware' => ['api','auth:api']], function($router) {
     Route::get('products{any}', [ProductController::class, 'search']);
     Route::resource('products', ProductController::class);
+    Route::post('products/upload', [ProductController::class, 'upload']);
 
     Route::get('/user', [AuthController::class, 'profile']);
 });
